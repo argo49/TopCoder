@@ -13,6 +13,10 @@ public class Driver {
 						 "AWBWBWBA",
 						 "AAAAAAAA"};
 		System.out.println(id.count("BW", screen));
+		
+		ExerciseMachine m = new ExerciseMachine();
+		
+		System.out.println(m.getPercentages("00:19:16"));
 	}
 }
 
