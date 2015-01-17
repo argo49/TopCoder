@@ -1,5 +1,5 @@
 /*
- * 
+ *  Also found as 1100 problem in SRM145.DIV2
  * 
  *  Problem Statement
     
