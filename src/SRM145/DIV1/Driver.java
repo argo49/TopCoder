@@ -28,6 +28,13 @@ public class Driver {
 		
 		System.out.println(vm.motorUse(prices, purchases));
 		
+		System.out.println("Hill Hiking: ");
+		
+		HillHike h = new HillHike();
+		
+		int [] landmarks = {2,2,3,1};
+		System.out.println(h.numPaths(8,3,landmarks));
+		
 	}
 }
 

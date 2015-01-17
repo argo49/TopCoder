@@ -87,15 +87,11 @@ public class VendingMachine {
 		rotateToMostExpensive();
 		
 		for (int i = 0; i < purchases.length; i++) {
-			print();
-			System.out.println("Sale to be made: " + purchases[i]);
 			makeSale(purchases[i]);
 		}
 		
-		System.out.println("CUUR:" + currCol);
 		// It will have to move eventually after all purchases have been made
 		rotateToMostExpensive();
-		System.out.println("CUUR:" + currCol);
 		
 		if (hasDoubleSales()) {
 			timeSpentSpinning = -1;
@@ -152,13 +148,11 @@ public class VendingMachine {
 	}
 	
 	public int getMinSpins (int from, int to) {
-		System.out.println("FROM: " + from + " TO: " + to + " LENGTH: " + rows.get(0).length);
 		int between = Math.abs(from - to);
 		
 		// Bad juju. Logic depends on which comes first in the row
 		int around  = from < to ? Math.abs(from + (rows.get(0).length - to)) : Math.abs(to + (rows.get(0).length - from));
 		
-		System.out.println("Min Spins: " + between + " ar: " + around);
 		return between > around ? around : between;
 	}
 
