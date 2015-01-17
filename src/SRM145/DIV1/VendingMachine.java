@@ -43,6 +43,7 @@
 	in a 4-column cylinder, if column 0 is displayed, and the cylinder is rotated to column 3, it 
 	can be rotated backwards, which takes 1 second, versus rotating forwards which takes 3 
 	seconds.
+	
 	If a user tries to purchase an item that was already purchased, this is an incorrect 
 	simulation, and your method should return -1. Otherwise, your method should return how long 
 	the motor was running, in seconds.
