@@ -12,9 +12,9 @@ public class Driver {
 		
 		BridgeCrossing b = new BridgeCrossing();
 		
-		int [] times = {1,2,3,4,5};
+		int [] times = {44, 63, 30, 1, 9, 53};
 		
-		System.out.println(b.minTime(times));
+		System.out.println("Minumum Time: " + b.minTime(times));
 	}
 }
 
