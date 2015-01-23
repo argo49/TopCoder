@@ -1,96 +1,91 @@
 package SRM146.DIV1;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class BridgeCrossing {
+		
 	public int minTime (int [] times) {
 		
-		ArrayList<Integer> leftSide  = new ArrayList<Integer>();
-		ArrayList<Integer> rightSide = new ArrayList<Integer>();
-		
-		boolean flashlightOnLeft = true;
-		
-		// Init left side array
-		for (int i = 0; i < times.length; i++) {
-			leftSide.add(times[i]);
-		}
+		if (times.length == 1)
+			return times[0];
+			
+		ArrayList<Integer> leftSide  = arraylistize(times);
+		ArrayList<Integer> rightSide = new ArrayList<Integer>(times.length);
 		
 		int time = 0;
 		
-		// Get mins
-		int globalMin       = leftSide.remove(leftSide.indexOf(Collections.min(leftSide)));
+		print(leftSide, rightSide);
 		
-		int globalSecondMin = -1;
-		if (leftSide.size() > 1)
-			globalSecondMin = leftSide.get(leftSide.indexOf(Collections.min(leftSide)));
+		int min1 = removeMin(leftSide);
+		int min2 = removeMin(leftSide);
 		
-		leftSide.add(globalMin);
+		rightSide.add(min1);
+		rightSide.add(min2);
+		
+		time += Math.max(min1, min2);
+		
+		int extreme1, extreme2;
+		boolean torchOnLeft = false;
 		
 		while (leftSide.size() > 0) {
 			
-			System.out.println("\n");
+			print(leftSide, rightSide);
 			
-			for (int i = 0; i < leftSide.size(); i++) {
-				System.out.print(leftSide.get(i));
-			}
-			
-			System.out.println("\n|");
-			System.out.println("v");
-			
-			for (int i = 0; i < rightSide.size(); i++) {
-				System.out.print(rightSide.get(i));
-			}
-			
-			if (flashlightOnLeft) {
-				
-				// things get done in pairs, either 2mins or 2maxes
-				Integer extreme1, extreme2;
-				
-				if (rightSide.size() == 0) {
-					// Send a runner to the other side (two minimums)
-					
+			if (torchOnLeft) {
+							
+				if (leftSide.indexOf(min1) > -1 && leftSide.indexOf(min2) > -1 && leftSide.size() < 5) {
 					extreme1 = removeMin(leftSide);
-					rightSide.add(extreme1);
-					if (leftSide.size() > 0) {
-						extreme2 = removeMin(leftSide);
-						rightSide.add(extreme2);
-						time += extreme1 > extreme2 ? extreme1 : extreme2;
-					} else {
-						time += extreme1;
-					}
-					
+					extreme2 = removeMin(leftSide);
+				} else if (leftSide.indexOf(min1) > -1 && leftSide.indexOf(min2) > -1) {
+					extreme1 = removeMin(leftSide);
+					extreme2 = removeMax(leftSide);
 				} else {
-					// Send maximums over
-					if (leftSide.indexOf(globalMin) > -1 && globalSecondMin > 0 && leftSide.indexOf(globalSecondMin) > -1) {
-						extreme1 = removeMin(leftSide);
-					} else {
-						extreme1 = removeMax(leftSide);
-					}
-					
-					rightSide.add(extreme1);
-					if (leftSide.size() > 0) {
-						extreme2 = removeMax(leftSide);
-						rightSide.add(extreme2);
-						time += extreme1 > extreme2 ? extreme1 : extreme2; 
-					} else {
-						time += extreme1;
-					}
-					
+					extreme1 = removeMax(leftSide);
+					extreme2 = removeMax(leftSide);
 				}
 				
-				flashlightOnLeft = false;
+				rightSide.add(extreme1);
+				rightSide.add(extreme2);
+				
+				time += Math.max(extreme1, extreme2);
+				
 			} else {
-				// Send smallest person back
-				int backtrack = removeMin(rightSide);
-				leftSide.add(backtrack);
-				time += backtrack;
-				flashlightOnLeft = true;
+				int min = removeMin(rightSide);
+				time += min;
+				leftSide.add(min);
 			}
 			
-		}	
+			torchOnLeft = !torchOnLeft;
+		}
 		
 		return time;
+	}
+	
+	public void print (ArrayList<Integer> a, ArrayList<Integer> b) {
+		
+		StringBuilder bob = new StringBuilder();
+		
+		for (int i = 0; i < a.size(); i++) {
+			bob.append(a.get(i) + " ");
+		}
+		
+		bob.append(" --> ");
+		
+		for (int i = 0; i < b.size(); i++) {
+			bob.append(b.get(i) + " ");
+		}
+		
+		System.out.println(bob);
+	}
+	
+	public ArrayList<Integer> arraylistize (int [] a) {
+		ArrayList<Integer> al = new ArrayList<Integer>();
+		for (int i = 0; i < a.length; i++) {
+			al.add(a[i]);
+		}
+		return al;
 	}
 	
 	public int removeMin (ArrayList<Integer> a) {
